@@ -1,1 +1,1 @@
-ngrok http 5100
+ngrok http --domain=right-burro-unique.ngrok-free.app 5100

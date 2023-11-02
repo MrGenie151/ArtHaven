@@ -41,6 +41,30 @@ def post():
     posts = cursor.fetchall()
     return render_template('posts.html', posts=posts)
 
+@app.route("/browse")
+def browse():
+    db = get_db()
+    cursor = db.cursor()
+    cursor.execute("SELECT * FROM posts ORDER BY id DESC limit 50")
+    posts = cursor.fetchall()
+    return render_template("browse.html",posts=posts)
+
+@app.route("/post/<post_id>")
+def post_page(post_id):
+    db = get_db()
+    cursor = db.cursor()
+    cursor.execute("SELECT content, authorid, title, imageData FROM posts WHERE id = ?",(post_id,))
+    post = cursor.fetchone()
+    print(post)
+
+    if post:
+        title, content, authorid, imageData = post
+
+        return render_template("post.html", post=post)
+    
+    return render_template("error.html")
+
+
 @app.route('/register', methods=['GET', 'POST'])
 def register():
     if request.method == 'POST':

@@ -1,3 +1,3 @@
 $(function () {
-    $("#header").load("static/nav.html")
+    $("#header").load("/static/nav.html")
 })

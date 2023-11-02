@@ -9,4 +9,27 @@ header h1 {
 header #subtitle {
   font-size: 10px;
   line-height: 2px;
+}
+
+.post {
+  width: 100px;
+  height: 100px;
+  display: inline-block;
+  line-height: 10px;
+  background-color: rgb(26, 26, 26);
+}
+
+.post-body {
+  margin-left: 20px;
+  margin-right: 20px;
+  min-height: 200px;
+}
+.post-body p {
+  margin-left: 10px;
+  margin-right: 10px;
+}
+
+.post-page h1 {
+  margin-left: 10px;
+  margin-right: 10px;
 }/*# sourceMappingURL=style.css.map */

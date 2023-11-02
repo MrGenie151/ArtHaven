@@ -10,22 +10,18 @@
 <body>
 
     <div id="header"></div>
-    <h1>Post</h1>
-    
-    <!-- Form to submit a new post -->
-    <form action="/post" method="post">
-        <input type="text" name="content" placeholder="Write your post">
-        <button type="submit">Post</button>
-    </form>
+    <h1>Browse Posts</h1>
 
-    <hr>
-
-    <!-- Display all posts -->
     <div>
         {% for post in posts %}
-            <p>{{ post[1] }}</p> <!-- Assuming content is in the second column -->
-            <hr>
+            <div class="post w3-card">
+                <div class="w3-center">
+                    <img src="{{ post[4] }}" />
+                </div>
+                <a href="/post/{{ post[0] }}" class="w3-center">{{ post[3] }}</a>
+            </div>
         {% endfor %}
     </div>
+
 </body>
 </html>
