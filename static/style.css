@@ -1,0 +1,12 @@
+body {
+  background-color: black;
+  color: white;
+}
+
+header h1 {
+  line-height: 30px;
+}
+header #subtitle {
+  font-size: 10px;
+  line-height: 2px;
+}/*# sourceMappingURL=style.css.map */
