@@ -28,7 +28,7 @@ def home():
 
 @app.route('/post', methods=['GET', 'POST'])
 def post():
-    if not session["user_id"]:
+    if not "user_id" in session:
         return redirect("/register")
 
     if request.method == 'POST':
