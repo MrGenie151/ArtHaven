@@ -20,6 +20,11 @@ header {
     display: inline-block;
     line-height: 10px;
     background-color: rgb(26, 26, 26);
+
+    img {
+        max-width: 50px;
+        max-height: 50px;
+    }
 }
 
 .post-body {

@@ -28,12 +28,18 @@ def home():
 
 @app.route('/post', methods=['GET', 'POST'])
 def post():
+    if not session["user_id"]:
+        return redirect("/register")
+
     if request.method == 'POST':
+        title = request.form['title']
         content = request.form['content']
+        dataURL = request.form['dataURL']
         db = get_db()
         cursor = db.cursor()
-        cursor.execute('INSERT INTO posts (content) VALUES (?)', (content,))
+        cursor.execute('INSERT INTO posts (content,authorid,title,imageData) VALUES (?,?,?,?)', (content,session["user_id"],title,dataURL))
         db.commit()
+        return redirect("/")
     
     db = get_db()
     cursor = db.cursor()

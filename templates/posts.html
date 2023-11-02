@@ -1,11 +1,27 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Browse - ArtHaven</title>
+    <title>Post - ArtHaven</title>
     <link rel="stylesheet" href="static/w3.css" />
 	<link rel="stylesheet" href="static/style.css" />
 	<script src="static/jquery-3.7.1.min.js"></script>
 	<script src="static/load_header.js"></script>
+    <script>
+        function handleImageUpload() {
+            var input = document.getElementById('imageInput');
+            var file = input.files[0];
+
+            var reader = new FileReader();
+            reader.onload = function() {
+                var dataURL = reader.result;
+                document.getElementById('imagePreview').src = dataURL;
+
+                // Set the data URL as the value of a hidden input field
+                document.getElementById('dataURLInput').value = dataURL;
+            };
+            reader.readAsDataURL(file);
+        }
+    </script>
 </head>
 <body>
 
@@ -14,18 +30,12 @@
     
     <!-- Form to submit a new post -->
     <form action="/post" method="post">
-        <input type="text" name="content" placeholder="Write your post">
+        <input type="text" name="title" placeholder="Write your post title" required><br />
+        <input type="text" name="content" placeholder="Write your post description" required><br />
+        <input type="file" name="image" id="imageInput" accept="image/*" onchange="handleImageUpload()" required><br />
+        <input type="hidden" name="dataURL" id="dataURLInput"><br />
+        <img id="imagePreview" src="#" alt="Uploaded Image" style="max-width: 300px; max-height: 300px;"><br />
         <button type="submit">Post</button>
     </form>
-
-    <hr>
-
-    <!-- Display all posts -->
-    <div>
-        {% for post in posts %}
-            <p>{{ post[1] }}</p> <!-- Assuming content is in the second column -->
-            <hr>
-        {% endfor %}
-    </div>
 </body>
 </html>
