@@ -1,24 +1,47 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>{{ post[2] }} - ArtHaven</title>
-    <link rel="stylesheet" href="/static/w3.css" />
+	<title>{{ post[2] }} - ArtHaven</title>
+	<link rel="stylesheet" href="/static/w3.css" />
 	<link rel="stylesheet" href="/static/style.css" />
 	<script src="/static/jquery-3.7.1.min.js"></script>
 	<script src="/static/load_header.js"></script>
+	<script type="module" src="https://md-block.verou.me/md-block.js"></script>
+	<script>
+		function deletePost() {
+			$.get("/api/post/{{ post[5] }}/delete",function(data) {
+				if (data == "Go back to browse idiot") {
+					location.href = "/browse"
+				}
+			})
+		}
+	</script>
 </head>
 <body>
 
-    <div id="header"></div>
-    <div class="post-page">
-        <h1>{{ post[2] }}</h1>
-        <div class="w3-center">
-            <img class="post-img" src="{{ post[3] }}" />
-        </div>
-        <div class="post-body w3-gray">
-            <p>{{ post[0] }}</p>
-            <p>Author: {{ author[1] }}</p>
-        </div>
-    </div>
+	<div id="header"></div>
+	<div class="post-page">
+		<h1>{{ post[2] }}</h1>
+		<div class="w3-center">
+			<img class="post-img" src="{{ post[3] }}" />
+		</div>
+		<div class="post-body w3-gray">
+			{% if session["userid"] == post[1] or session["moderator"] %}
+			<button class="w3-button w3-black w3-right" onclick="$('#delete-prompt').show()">Delete</button>
+			{% endif %}
+			<md-block>**Description:** {{ post[0] }}<br />
+				**Author:** <a href="/users/{{ author[0] }}">{{ author[1] }}</a><br />
+				**Date Posted:** {{ postdate }}
+			</p>
+		</div>
+		<div id="delete-prompt" class="w3-modal">
+			<div class="w3-modal-content w3-dark-gray">
+				<div class="w3-container">
+					<p>Are you sure you want to delete the post?</p>
+					<button class="w3-button w3-black" onclick="deletePost()">Yes, delete this post.</button>
+				</div>
+			</div>
+		</div>
+	</div>
 </body>
 </html>

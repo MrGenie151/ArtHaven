@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>{{ user[0] }} - ArtHaven</title>
+    <link rel="stylesheet" href="/static/w3.css" />
+	<link rel="stylesheet" href="/static/style.css" />
+	<script src="/static/jquery-3.7.1.min.js"></script>
+	<script src="/static/load_header.js"></script>
+    <script type="module" src="https://md-block.verou.me/md-block.js"></script>
+</head>
+<body>
+
+    <div id="header"></div>
+    <div class="user-page"">
+        <div class="user-details">
+            {% if session["user_id"] == user[1] %}
+            <a href="/settings" class="w3-button w3-black w3-right">Settings</a>
+            {% endif %}
+            <h1>User: {{ user[0] }}</h1>
+            <p>Joined on {{ joindate }}</p>
+            <md-block>**Description:** {{ user[2] }}</md-block>
+        </div>
+        <div class="user-posts">
+            <h1>Posts by {{ user[0] }}</h1>
+            <div class="grid">
+                {% for post in posts %}
+                    <div class="post w3-card">
+                        <div class="w3-center">
+                            <img src="{{ post[4] }}" />
+                        </div><br />
+                        <a href="/post/{{ post[0] }}" class="w3-center">{{ post[3] }}</a>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>

@@ -5,6 +5,7 @@ from werkzeug.utils import secure_filename
 import os
 import time
 from dotenv import load_dotenv
+from datetime import datetime
 
 load_dotenv()
 
@@ -16,6 +17,7 @@ app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
 DATABASE = 'social_media.db'
 
+# HELPER FUNCTIONS
 def get_db():
     db = getattr(g, '_database', None)
     if db is None:
@@ -31,6 +33,7 @@ def close_connection(exception):
 def check_password(saved_password, entered_password):
     return check_password_hash(saved_password, entered_password)
 
+# MAIN SITE STUFF
 @app.route("/")
 def home():
     return render_template("index.html")
@@ -50,7 +53,7 @@ def post():
         dataURL = request.form['dataURL']
         db = get_db()
         cursor = db.cursor()
-        cursor.execute('INSERT INTO posts (content,authorid,title,imageData) VALUES (?,?,?,?)', (content,session["user_id"],title,dataURL))
+        cursor.execute('INSERT INTO posts (content,authorid,title,imageData,postdate) VALUES (?,?,?,?,?)', (content,session["user_id"],title,dataURL,time.time()))
         db.commit()
         return redirect("/")
     
@@ -72,16 +75,17 @@ def browse():
 def post_page(post_id):
     db = get_db()
     cursor = db.cursor()
-    cursor.execute("SELECT content, authorid, title, imageData FROM posts WHERE id = ?",(post_id,))
+    cursor.execute("SELECT content, authorid, title, imageData, postdate, id FROM posts WHERE id = ?",(post_id,))
     post = cursor.fetchone()
     #print(post)
     cursor.execute("SELECT id, username FROM users WHERE id = ?",(post[1],))
     author = cursor.fetchone()
 
     if post and author:
-        title, content, authorid, imageData = post
+        #title, content, authorid, imageData = post
+        date = datetime.fromtimestamp(post[4])
 
-        return render_template("post.html", post=post,author=author)
+        return render_template("post.html", post=post,author=author,postdate=date.strftime("%d-%m-%y"))
     
     return render_template("error.html")
 
@@ -89,14 +93,18 @@ def post_page(post_id):
 def user_page(user_id):
     db = get_db()
     cursor = db.cursor()
-    cursor.execute("SELECT username, authorid, description FROM posts WHERE id = ?",(user_id,))
+    cursor.execute("SELECT username, id, description, joindate FROM users WHERE id = ?",(user_id,))
     user = cursor.fetchone()
+
+    cursor.execute("SELECT * FROM posts WHERE authorid = ? ORDER BY id DESC limit 50",(user_id,))
+    posts = cursor.fetchall()
     #print(post)
 
-    if post:
-        title, content, authorid, imageData = post
+    if user:
+        #title, content, authorid, imageData = post
+        date = datetime.fromtimestamp(user[3])
 
-        return render_template("user.html", user=user)
+        return render_template("user.html", user=user, joindate=date.strftime("%d-%m-%y"), posts=posts)
     
     return render_template("error.html")
 
@@ -113,8 +121,8 @@ def register():
         # Store the user's information in the 'users' table
         db = get_db()
         cursor = db.cursor()
-        cursor.execute('INSERT INTO users (username, email, password_hash, description) VALUES (?, ?, ?, ?)',
-                       (username, email, hashed_password, "User has no description."))
+        cursor.execute('INSERT INTO users (username, email, password_hash, description, joindate) VALUES (?, ?, ?, ?, ?)',
+                       (username, email, hashed_password, "User has no description.",time.time()))
         db.commit()
 
         # Redirect to a new page or perform additional actions
@@ -130,17 +138,65 @@ def login():
 
         db = get_db()
         cursor = db.cursor()
-        cursor.execute('SELECT id, username, password_hash FROM users WHERE username = ?', (username,))
+        cursor.execute('SELECT id, username, password_hash, ismoderator FROM users WHERE username = ?', (username,))
         user = cursor.fetchone()
         if user:
-            user_id, saved_username, saved_password = user
+            user_id, saved_username, saved_password, ismoderator = user
 
             if check_password(saved_password, password):
                 session["user_id"] = user_id
+                if ismoderator and ismoderator > 0:
+                    session["moderator"] = True
                 return redirect("/")
         
         return "Invalid username or password. Please try again."
     return render_template("login.html")
+
+@app.route("/logout")
+def logout():
+    session.pop('user_id',default=None)
+    session.pop('moderator',default=None)
+    return redirect("/")
+
+# END OF MAIN SITE STUFF
+
+#API STUFF
+@app.route("/api/is_logged_in")
+def is_logged_in():
+    if 'user_id' in session:
+        return { "response" : True, "userid" : session["user_id"]}
+    else:
+        return { "response" : False}
+
+@app.route("/api/user/<user_id>")
+def user_api(user_id):
+    db = get_db()
+    cursor = db.cursor()
+    cursor.execute("SELECT username, description, joindate FROM users WHERE id = ?",(user_id,))
+    user = cursor.fetchone()
+
+    if user:
+        username, description, joindate = user
+
+        return {"username" : username, "description" : description, "joindate" : joindate}
+
+    return {"response" : "Error!"}
+
+@app.route("/api/post/<post_id>/delete", methods=['GET'])
+def delete_post(post_id):
+    db = get_db()
+    cursor = db.cursor()
+    cursor.execute("SELECT * FROM posts WHERE id = ?",(post_id,))
+    post = cursor.fetchone()
+    if post:
+        if session["user_id"] == post[2] or session["moderator"] > 0:
+            print("epic")
+            cursor.execute("DELETE FROM posts WHERE id = ?",(post_id,))
+            db.commit()
+            return "Go back to browse idiot"
+    return "Friggin heck"
+
+# END OF API STUFF
 
 if __name__ == '__main__':
     app.run(debug=True,port=5100)

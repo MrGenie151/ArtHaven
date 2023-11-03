@@ -12,12 +12,12 @@
     <div id="header"></div>
     <h1>Browse Posts</h1>
 
-    <div>
+    <div class="grid">
         {% for post in posts %}
             <div class="post w3-card">
                 <div class="w3-center">
                     <img src="{{ post[4] }}" />
-                </div>
+                </div><br />
                 <a href="/post/{{ post[0] }}" class="w3-center">{{ post[3] }}</a>
             </div>
         {% endfor %}

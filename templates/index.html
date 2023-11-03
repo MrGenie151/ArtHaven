@@ -14,6 +14,12 @@
 	<div class="w3-center">
 		<h1>ArtHaven</h1>
 		<p>An experimental place to post your SFW artwork.</p>
+		{% if session["user_id"] %}
+		<a href="/post" class="w3-button w3-dark-gray">Post Something</a>
+		{% endif %}
+		{% if not session["user_id"] %}
+		<a href="/register" class="w3-button w3-dark-gray">Sign up</a>
+		{% endif %}
 	</div>
 
 </body>
