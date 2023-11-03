@@ -4,12 +4,14 @@ from werkzeug.security import generate_password_hash, check_password_hash
 from werkzeug.utils import secure_filename
 import os
 import time
-import dotenv
+from dotenv import load_dotenv
+
+load_dotenv()
 
 UPLOAD_FOLDER = '/static/image'
 
 app = Flask(__name__)
-app.secret_key = 'arthavenistheopposite'
+app.secret_key = os.getenv("SECRET_KEY")
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
 DATABASE = 'social_media.db'
