@@ -2,6 +2,11 @@
 <html>
 <head>
 	<title>{{ post[2] }} - ArtHaven</title>
+	<meta content="{{ post[2] }} - ArtHaven" property="og:title" />
+	<meta content="{{ post[0] }}\nFind more like this on ArtHaven!" property="og:description" />
+	<!-- <meta content="https://embed.com/this-is-the-site-url" property="og:url" /> -->
+	<meta content="{{ post[3] }}" property="og:image" />
+	<meta content="#ffffff" data-react-helmet="true" name="theme-color" />
 	<link rel="stylesheet" href="/static/w3.css" />
 	<link rel="stylesheet" href="/static/style.css" />
 	<script src="/static/jquery-3.7.1.min.js"></script>

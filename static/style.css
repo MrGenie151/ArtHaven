@@ -53,6 +53,11 @@ header #subtitle {
   margin-right: 10px;
 }
 .post-page img.post-img {
+  transition-duration: 0.5s;
+  transition-property: max-width;
+  max-width: 50%;
+}
+.post-page img.post-img:hover {
   max-width: 90%;
 }
 

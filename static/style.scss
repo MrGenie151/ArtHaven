@@ -60,7 +60,13 @@ header {
     }
 
     img.post-img {
-        max-width: 90%;
+        transition-duration: 0.5s;
+        transition-property: max-width;
+        max-width: 50%;
+
+        &:hover {
+            max-width: 90%;
+        }
     }
 }
 
