@@ -1,9 +1,16 @@
 import sqlite3
-from flask import Flask, render_template, request, g, session, redirect
+from flask import Flask, render_template, request, g, session, redirect, url_for, flash
 from werkzeug.security import generate_password_hash, check_password_hash
+from werkzeug.utils import secure_filename
+import os
+import time
+import dotenv
+
+UPLOAD_FOLDER = '/static/image'
 
 app = Flask(__name__)
 app.secret_key = 'arthavenistheopposite'
+app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
 DATABASE = 'social_media.db'
 
@@ -25,6 +32,10 @@ def check_password(saved_password, entered_password):
 @app.route("/")
 def home():
     return render_template("index.html")
+
+@app.route("/content-rules")
+def contentrules():
+    return render_template("content-rules.html")
 
 @app.route('/post', methods=['GET', 'POST'])
 def post():
@@ -61,12 +72,29 @@ def post_page(post_id):
     cursor = db.cursor()
     cursor.execute("SELECT content, authorid, title, imageData FROM posts WHERE id = ?",(post_id,))
     post = cursor.fetchone()
-    print(post)
+    #print(post)
+    cursor.execute("SELECT id, username FROM users WHERE id = ?",(post[1],))
+    author = cursor.fetchone()
+
+    if post and author:
+        title, content, authorid, imageData = post
+
+        return render_template("post.html", post=post,author=author)
+    
+    return render_template("error.html")
+
+@app.route("/users/<user_id>")
+def user_page(user_id):
+    db = get_db()
+    cursor = db.cursor()
+    cursor.execute("SELECT username, authorid, description FROM posts WHERE id = ?",(user_id,))
+    user = cursor.fetchone()
+    #print(post)
 
     if post:
         title, content, authorid, imageData = post
 
-        return render_template("post.html", post=post)
+        return render_template("user.html", user=user)
     
     return render_template("error.html")
 
@@ -83,8 +111,8 @@ def register():
         # Store the user's information in the 'users' table
         db = get_db()
         cursor = db.cursor()
-        cursor.execute('INSERT INTO users (username, email, password_hash) VALUES (?, ?, ?)',
-                       (username, email, hashed_password))
+        cursor.execute('INSERT INTO users (username, email, password_hash, description) VALUES (?, ?, ?, ?)',
+                       (username, email, hashed_password, "User has no description."))
         db.commit()
 
         # Redirect to a new page or perform additional actions

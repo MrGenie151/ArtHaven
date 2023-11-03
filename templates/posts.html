@@ -29,7 +29,7 @@
     <h1>Post</h1>
     
     <!-- Form to submit a new post -->
-    <form action="/post" method="post">
+    <form action="/post" method="post" enctype="multipart/form-data">
         <input type="text" name="title" placeholder="Write your post title" required><br />
         <input type="text" name="content" placeholder="Write your post description" required><br />
         <input type="file" name="image" id="imageInput" accept="image/*" onchange="handleImageUpload()" required><br />

@@ -36,4 +36,7 @@ header #subtitle {
 .post-page h1 {
   margin-left: 10px;
   margin-right: 10px;
+}
+.post-page img.post-img {
+  max-width: 90%;
 }/*# sourceMappingURL=style.css.map */
