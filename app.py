@@ -75,17 +75,17 @@ def browse():
 def post_page(post_id):
     db = get_db()
     cursor = db.cursor()
-    cursor.execute("SELECT content, authorid, title, imageData, postdate, id FROM posts WHERE id = ?",(post_id,))
+    cursor.execute("SELECT content, authorid, title, imageData, postdate, id, username FROM posts INNER JOIN users ON posts.authorid = users.userid WHERE id = ?",(post_id,))
     post = cursor.fetchone()
     #print(post)
-    cursor.execute("SELECT id, username FROM users WHERE id = ?",(post[1],))
-    author = cursor.fetchone()
+    #cursor.execute("SELECT userid, username FROM users WHERE userid = ?",(post[1],))
+    #author = cursor.fetchone()
 
-    if post and author:
+    if post:
         #title, content, authorid, imageData = post
         date = datetime.fromtimestamp(post[4])
 
-        return render_template("post.html", post=post,author=author,postdate=date.strftime("%d-%m-%y"))
+        return render_template("post.html", post=post,postdate=date.strftime("%d-%m-%y"))
     
     return render_template("error.html")
 
@@ -93,7 +93,7 @@ def post_page(post_id):
 def user_page(user_id):
     db = get_db()
     cursor = db.cursor()
-    cursor.execute("SELECT username, id, description, joindate FROM users WHERE id = ?",(user_id,))
+    cursor.execute("SELECT username, userid, description, joindate FROM users WHERE userid = ?",(user_id,))
     user = cursor.fetchone()
 
     cursor.execute("SELECT * FROM posts WHERE authorid = ? ORDER BY id DESC limit 50",(user_id,))
@@ -138,7 +138,7 @@ def login():
 
         db = get_db()
         cursor = db.cursor()
-        cursor.execute('SELECT id, username, password_hash, ismoderator FROM users WHERE username = ?', (username,))
+        cursor.execute('SELECT userid, username, password_hash, ismoderator FROM users WHERE username = ?', (username,))
         user = cursor.fetchone()
         if user:
             user_id, saved_username, saved_password, ismoderator = user
@@ -172,7 +172,7 @@ def is_logged_in():
 def user_api(user_id):
     db = get_db()
     cursor = db.cursor()
-    cursor.execute("SELECT username, description, joindate FROM users WHERE id = ?",(user_id,))
+    cursor.execute("SELECT username, description, joindate FROM users WHERE userid = ?",(user_id,))
     user = cursor.fetchone()
 
     if user:
