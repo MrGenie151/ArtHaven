@@ -3,6 +3,10 @@ body {
   color: white;
 }
 
+textarea {
+  max-width: 100%;
+}
+
 h1 {
   margin-left: 10px;
 }
@@ -39,8 +43,8 @@ header #subtitle {
 }
 
 .post-body {
-  margin-left: 20px;
-  margin-right: 20px;
+  margin-left: 10px;
+  margin-right: 10px;
   min-height: 200px;
 }
 .post-body p {
@@ -59,6 +63,16 @@ header #subtitle {
 }
 .post-page img.post-img:hover {
   max-width: 90%;
+}
+.post-page .comments {
+  background-color: rgb(66, 66, 66);
+  margin: 10px;
+  padding: 10px;
+}
+.post-page .comments .comment {
+  background-color: rgb(88, 88, 88);
+  margin: 10px;
+  padding: 10px;
 }
 
 .user-page .user-details, .user-page .user-posts {

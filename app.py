@@ -80,12 +80,14 @@ def post_page(post_id):
     #print(post)
     #cursor.execute("SELECT userid, username FROM users WHERE userid = ?",(post[1],))
     #author = cursor.fetchone()
+    cursor.execute("SELECT commentid, comment_content, postdate, authorid, username FROM comments INNER JOIN users ON comments.authorid = users.userid WHERE postid = ? ORDER BY commentid DESC",(post_id,))
+    comments = cursor.fetchall()
 
     if post:
         #title, content, authorid, imageData = post
         date = datetime.fromtimestamp(post[4])
 
-        return render_template("post.html", post=post,postdate=date.strftime("%d-%m-%y"))
+        return render_template("post.html", post=post,postdate=date.strftime("%d-%m-%y"),comments=comments)
     
     return render_template("error.html")
 
@@ -157,6 +159,15 @@ def logout():
     session.pop('user_id',default=None)
     session.pop('moderator',default=None)
     return redirect("/")
+
+@app.route("/comment/<post_id>", methods=['POST'])
+def comment(post_id):
+    comment_content = request.form["comment-box"]
+    db = get_db()
+    cursor = db.cursor()
+    cursor.execute("INSERT INTO comments (postid, authorid, comment_content, postdate) VALUES (?, ?, ?, ?)",(post_id, session["user_id"], comment_content, time.time()))
+    db.commit()
+    return redirect("/post/" + str(post_id) + "#comments")
 
 # END OF MAIN SITE STUFF
 

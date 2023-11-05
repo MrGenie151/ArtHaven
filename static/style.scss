@@ -1,6 +1,12 @@
+$padding-size: 10px;
+
 body {
     background-color: black;
     color: white;
+}
+
+textarea {
+    max-width: 100%;
 }
 
 h1 {
@@ -21,7 +27,7 @@ header {
 .grid {
     display: flex;
     flex-wrap: wrap;
-    margin: 10px;
+    margin: $padding-size;
 }
 
 .post {
@@ -43,8 +49,8 @@ header {
 }
 
 .post-body {
-    margin-left: 20px;
-    margin-right: 20px;
+    margin-left: $padding-size;
+    margin-right: $padding-size;
     min-height: 200px;
 
     p {
@@ -68,14 +74,25 @@ header {
             max-width: 90%;
         }
     }
+
+    .comments {
+        background-color: rgb(66, 66, 66);
+        margin: $padding-size;
+        padding: $padding-size;
+        .comment {
+            background-color: rgb(88, 88, 88);
+            margin: $padding-size;
+            padding: $padding-size;
+        }
+    }
 }
 
 .user-page {
     
     .user-details, .user-posts {
         background-color: rgb(66, 66, 66);
-        margin: 10px;
-        padding: 10px;
+        margin: $padding-size;
+        padding: $padding-size;
     }
 }
 
@@ -85,5 +102,5 @@ p.smol {
 }
 
 form {
-    margin: 10px;
+    margin: $padding-size;
 }

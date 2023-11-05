@@ -21,6 +21,7 @@
 			})
 		}
 	</script>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
 <body>
 
@@ -31,13 +32,28 @@
 			<img class="post-img" src="{{ post[3] }}" />
 		</div>
 		<div class="post-body w3-gray">
-			{% if session["userid"] == post[1] or session["moderator"] %}
+			{% if session["user_id"] == post[1] or session["moderator"] %}
 			<button class="w3-button w3-black w3-right" onclick="$('#delete-prompt').show()">Delete</button>
 			{% endif %}
 			<md-block>**Description:** {{ post[0] }}<br />
 				**Author:** <a href="/users/{{ post[1] }}">{{ post[6] }}</a><br />
 				**Date Posted:** {{ postdate }}
 			</p>
+		</div>
+		<div class="comments">
+			<h2 id="comments">Comments</h2>
+			{% if session["user_id"] %}
+			<form action="/comment/{{ post[5] }}" method="post">
+				<textarea required placeholder="Type a comment" name="comment-box" id="comment-box" cols="100" rows="4"></textarea><br />
+				<button type="submit" class="w3-button w3-white">Post Comment</button>
+			</form>
+			{% endif %}
+			{% for comment in comments %}
+			<div class="comment">
+				<h3><a href="/users/{{ comment[3] }}">{{ comment[4] }}</a></h3>
+				<md-block>{{ comment[1] }}</md-block>
+			</div>
+			{% endfor %}
 		</div>
 		<div id="delete-prompt" class="w3-modal">
 			<div class="w3-modal-content w3-dark-gray">

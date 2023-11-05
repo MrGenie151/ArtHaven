@@ -6,6 +6,7 @@
 	<link rel="stylesheet" href="static/style.css" />
 	<script src="static/jquery-3.7.1.min.js"></script>
 	<script src="static/load_header.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script>
         function handleImageUpload() {
             var input = document.getElementById('imageInput');
@@ -41,9 +42,10 @@
     <!-- Form to submit a new post -->
     <form action="/post" method="post" enctype="multipart/form-data">
         <input type="text" name="title" placeholder="Write your post title" maxlength="50" required><br />
-        <p class="smol">(Maximum 50 characters)</p>
+        <p class="smol">(Maximum 50 characters for post title)</p>
         <!--<input type="text" name="content" placeholder="Write your post description" required><br /> -->
         <textarea id="post-content" name="content" placeholder="Write your post description..." rows="3" cols="50" maxlength="1000" oninput="countCharacters()" required></textarea><br />
+        <p class="smol">(Markdown is supported in post descriptions)</p>
         <p class="smol" id="characterCount">Characters left: 1000</p>
         <input type="file" name="image" id="imageInput" accept="image/*" onchange="handleImageUpload()" required><br />
         <input type="hidden" name="dataURL" id="dataURLInput"><br />
