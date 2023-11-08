@@ -44,7 +44,7 @@
             <label for="desc">Description:</label><br />
             <textarea name="desc" id="desc" rows="4" cols="500" required>{{ user_info[4] }}</textarea>
             <label for="image">Profile Picture:</label><br />
-            <input type="file" name="image" id="imageInput" accept="image/*" onchange="handleImageUpload()" required><br />
+            <input type="file" name="image" id="imageInput" accept="image/*" onchange="handleImageUpload()"><br />
             <input type="hidden" name="dataURL" id="dataURLInput" value="{{ user_info[6] }}"><br />
             <img id="imagePreview" src="{{ user_info[6] }}" alt="Uploaded Image" style="max-width: 300px; max-height: 300px;"><br />
             <button type="submit">Save Settings</button>
