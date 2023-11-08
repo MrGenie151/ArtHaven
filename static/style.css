@@ -87,6 +87,10 @@ header #subtitle {
   margin: 10px;
   padding: 10px;
 }
+.post-page .comments .comment .pfp {
+  width: 50px;
+  height: 50px;
+}
 
 p.smol {
   line-height: 0px;
@@ -100,4 +104,6 @@ form {
 .pfp {
   width: 100px;
   height: 100px;
+  margin-right: 10px;
+  float: left;
 }/*# sourceMappingURL=style.css.map */

@@ -81,7 +81,7 @@ def post_page(post_id):
     #print(post)
     #cursor.execute("SELECT userid, username FROM users WHERE userid = ?",(post[1],))
     #author = cursor.fetchone()
-    cursor.execute("SELECT commentid, comment_content, postdate, authorid, username FROM comments INNER JOIN users ON comments.authorid = users.userid WHERE postid = ? ORDER BY commentid DESC",(post_id,))
+    cursor.execute("SELECT commentid, comment_content, postdate, authorid, username, profilepicture FROM comments INNER JOIN users ON comments.authorid = users.userid WHERE postid = ? ORDER BY commentid DESC",(post_id,))
     comments = cursor.fetchall()
 
     if post:
