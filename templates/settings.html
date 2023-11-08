@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>ArtHaven</title>
+    <link rel="stylesheet" href="/static/w3.css" />
+	<link rel="stylesheet" href="/static/style.css" />
+	<script src="/static/jquery-3.7.1.min.js"></script>
+	<script src="/static/load_header.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script>
+        function handleImageUpload() {
+            var input = document.getElementById('imageInput');
+            var file = input.files[0];
+
+            var reader = new FileReader();
+            reader.onload = function() {
+                var dataURL = reader.result;
+                document.getElementById('imagePreview').src = dataURL;
+
+                // Set the data URL as the value of a hidden input field
+                document.getElementById('dataURLInput').value = dataURL;
+            };
+            reader.readAsDataURL(file);
+        }
+
+        /*function countCharacters() {
+            const maxLength = 1000; // Set your maximum character limit here
+            const text = document.getElementById("post-content").value;
+            const remaining = maxLength - text.length;
+            
+            const countDisplay = document.getElementById("characterCount");
+            countDisplay.textContent = `Characters left: ${remaining}`;
+        } */
+    </script>
+</head>
+<body>
+
+    <div id="header"></div>
+
+    <div class="content-div">
+        <h1>User Settings</h1>
+        <a href="/users/{{ user_info[0] }}" class="w3-button w3-white">Return to profile</a>
+        <form action="/settings" method="post">
+            <label for="desc">Description:</label><br />
+            <textarea name="desc" id="desc" rows="4" cols="500" required>{{ user_info[4] }}</textarea>
+            <label for="image">Profile Picture:</label><br />
+            <input type="file" name="image" id="imageInput" accept="image/*" onchange="handleImageUpload()" required><br />
+            <input type="hidden" name="dataURL" id="dataURLInput" value="{{ user_info[6] }}"><br />
+            <img id="imagePreview" src="{{ user_info[6] }}" alt="Uploaded Image" style="max-width: 300px; max-height: 300px;"><br />
+            <button type="submit">Save Settings</button>
+        </form>
+    </div>
+
+</body>
+</html>

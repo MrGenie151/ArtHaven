@@ -4,6 +4,7 @@
     <title>{{ user[0] }} - ArtHaven</title>
     <link rel="stylesheet" href="/static/w3.css" />
 	<link rel="stylesheet" href="/static/style.css" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
 	<script src="/static/jquery-3.7.1.min.js"></script>
 	<script src="/static/load_header.js"></script>
     <script type="module" src="https://md-block.verou.me/md-block.js"></script>
@@ -13,15 +14,18 @@
 
     <div id="header"></div>
     <div class="user-page"">
-        <div class="user-details">
+        <div class="content-div">
             {% if session["user_id"] == user[1] %}
             <a href="/settings" class="w3-button w3-black w3-right">Settings</a>
             {% endif %}
-            <h1>User: {{ user[0] }}</h1>
+            <h1><img src="{{ user[5] }}" class="pfp" />User: {{ user[0] }}</h1>
+            {% if user[4] and user[4] >= 1 %}
+            <h3><span class="material-symbols-outlined">computer</span> Moderator</h3>
+            {% endif %}
             <p>Joined on {{ joindate }}</p>
             <md-block>**Description:** {{ user[2] }}</md-block>
         </div>
-        <div class="user-posts">
+        <div class="user-posts content-div">
             <h1>Posts by {{ user[0] }}</h1>
             <div class="grid">
                 {% for post in posts %}

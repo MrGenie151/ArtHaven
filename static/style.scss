@@ -1,8 +1,35 @@
 $padding-size: 10px;
 
+$themes: (
+ light: (
+   text: #151e16,
+   background: #dbffdb,
+   primary: #54ff47,
+   secondary: #2ae539,
+   accent: #ddff00,
+ ),
+ dark: (
+   text: #e1eae2,
+   background: #002400,
+   primary: #0cb800,
+   secondary: #1ad52a,
+   accent: #ddff00,
+ ),
+);
+
+.content-div {
+    margin: $padding-size;
+    padding: $padding-size;
+    background-color: map-get(map-get($themes,dark), primary)
+}
+
 body {
-    background-color: black;
-    color: white;
+    background-color: map-get(map-get($themes,dark), background);
+    color: map-get(map-get($themes,dark), text);
+}
+
+.topbar {
+    background-color: map-get(map-get($themes,dark), primary);
 }
 
 textarea {
@@ -35,7 +62,8 @@ header {
     height: 130px;
     /*display: inline-block; */
     line-height: 10px;
-    background-color: rgb(26, 26, 26);
+    /*background-color: rgb(26, 26, 26);*/
+    background-color: map-get(map-get($themes,dark), primary);
     margin: 5px;
 
     img {
@@ -52,6 +80,7 @@ header {
     margin-left: $padding-size;
     margin-right: $padding-size;
     min-height: 200px;
+    background-color: map-get(map-get($themes,dark), primary);
 
     p {
         margin-left: 10px;
@@ -76,11 +105,13 @@ header {
     }
 
     .comments {
-        background-color: rgb(66, 66, 66);
+        /*background-color: rgb(66, 66, 66);*/
+        background-color: map-get(map-get($themes,dark), primary);
         margin: $padding-size;
         padding: $padding-size;
         .comment {
-            background-color: rgb(88, 88, 88);
+            // background-color: rgb(88, 88, 88);
+            background-color: map-get(map-get($themes,dark), secondary);
             margin: $padding-size;
             padding: $padding-size;
         }
@@ -90,9 +121,9 @@ header {
 .user-page {
     
     .user-details, .user-posts {
-        background-color: rgb(66, 66, 66);
-        margin: $padding-size;
-        padding: $padding-size;
+        //background-color: rgb(66, 66, 66);
+        //margin: $padding-size;
+        //padding: $padding-size;
     }
 }
 
@@ -103,4 +134,9 @@ p.smol {
 
 form {
     margin: $padding-size;
+}
+
+.pfp {
+    width: 100px;
+    height: 100px;
 }
