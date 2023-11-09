@@ -37,6 +37,7 @@
 			{% if session["user_id"] == post[1] or session["moderator"] %}
 			<button class="w3-button w3-black w3-right" onclick="$('#delete-prompt').show()"><span class="material-symbols-outlined">delete_forever</span></button>
 			{% endif %}
+			<button class="w3-button w3-red w3-right" onclick="$('#report-prompt').show()"><span class="material-symbols-outlined">report</span> Report</button>
 			<md-block>**Description:** {{ post[0] }}<br />
 				**Author:** <a href="/users/{{ post[1] }}">{{ post[6] }}</a><br />
 				**Date Posted:** {{ postdate }}
@@ -75,6 +76,18 @@
 					<p>Are you sure you want to delete this comment?</p>
 					<button class="w3-button w3-black" onclick="$('#delete-prompt').hide()">Cancel</button>
 					<button class="w3-button w3-red" onclick="deleteComment()">Yes, delete this comment.</button>
+				</div>
+			</div>
+		</div>
+		<div id="report-prompt" class="w3-modal">
+			<div class="w3-modal-content w3-dark-gray">
+				<h1>Report this post</h1>
+				<div class="w3-container">
+					<form action="/posts/{{ post[5] }}/report" method="post">
+						<label for="report-content">Please put the reason as to why this post is innapropriate:</label>
+						<textarea name="report-content" id="report-content" cols="50" rows="4" required></textarea><br />
+						<button type="submit">Submit Report</button>
+					</form>
 				</div>
 			</div>
 		</div>
