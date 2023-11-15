@@ -57,7 +57,11 @@ def post():
 		cursor = db.cursor()
 		cursor.execute('INSERT INTO posts (content,authorid,title,imageData,postdate) VALUES (?,?,?,?,?)', (content,session["user_id"],title,dataURL,time.time()))
 		db.commit()
-		return redirect("/")
+		
+		cursor.execute("SELECT * FROM posts WHERE authorid = ? ORDER BY postdate DESC limit 1",(session["user_id"],))
+		most_recent_post = cursor.fetchone()
+
+		return redirect("/post/" + str(most_recent_post[0]))
 	
 	db = get_db()
 	cursor = db.cursor()
