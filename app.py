@@ -100,7 +100,7 @@ def user_page(user_id):
 	cursor.execute("SELECT username, userid, description, joindate, ismoderator, profilepicture FROM users WHERE userid = ?",(user_id,))
 	user = cursor.fetchone()
 
-	cursor.execute("SELECT * FROM posts WHERE authorid = ? ORDER BY id DESC limit 50",(user_id,))
+	cursor.execute("SELECT * FROM posts WHERE authorid = ? ORDER BY id DESC limit 10",(user_id,))
 	posts = cursor.fetchall()
 	#print(post)
 
@@ -109,6 +109,25 @@ def user_page(user_id):
 		date = datetime.fromtimestamp(user[3])
 
 		return render_template("user.html", user=user, joindate=date.strftime("%d-%m-%y"), posts=posts)
+	
+	return render_template("error.html")
+
+@app.route("/users/<user_id>/posts")
+def user_posts_page(user_id):
+	db = get_db()
+	cursor = db.cursor()
+	cursor.execute("SELECT username, userid, description, joindate, ismoderator, profilepicture FROM users WHERE userid = ?",(user_id,))
+	user = cursor.fetchone()
+
+	cursor.execute("SELECT * FROM posts WHERE authorid = ? ORDER BY id DESC limit 50",(user_id,))
+	posts = cursor.fetchall()
+	#print(post)
+
+	if user:
+		#title, content, authorid, imageData = post
+		date = datetime.fromtimestamp(user[3])
+
+		return render_template("user-posts.html", user=user, joindate=date.strftime("%d-%m-%y"), posts=posts)
 	
 	return render_template("error.html")
 

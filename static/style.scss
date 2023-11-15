@@ -59,12 +59,13 @@ header {
 
 .post {
     width: 100px;
-    height: 130px;
+    min-height: 130px;
     /*display: inline-block; */
     line-height: 10px;
     /*background-color: rgb(26, 26, 26);*/
     background-color: map-get(map-get($themes,dark), primary);
     margin: 5px;
+    padding: 5px;
 
     img {
         max-width: 80%;

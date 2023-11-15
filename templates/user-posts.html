@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>ArtHaven</title>
+    <link rel="stylesheet" href="/static/w3.css" />
+	<link rel="stylesheet" href="/static/style.css" />
+	<script src="/static/jquery-3.7.1.min.js"></script>
+	<script src="/static/load_header.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+
+    <div id="header"></div>
+
+    <h1><a href="/users/{{ user[1] }}">{{ user[0] }}</a>'s Posts</h1>
+    <div class="grid">
+        {% for post in posts %}
+            <div class="post w3-card">
+                <div class="w3-center">
+                    <img src="{{ post[4] }}" />
+                </div><br />
+                <a href="/post/{{ post[0] }}" class="w3-center">{{ post[3] }}</a>
+            </div>
+        {% endfor %}
+    </div>
+
+</body>
+</html>

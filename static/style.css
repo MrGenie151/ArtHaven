@@ -37,12 +37,13 @@ header #subtitle {
 
 .post {
   width: 100px;
-  height: 130px;
+  min-height: 130px;
   /*display: inline-block; */
   line-height: 10px;
   /*background-color: rgb(26, 26, 26);*/
   background-color: #0cb800;
   margin: 5px;
+  padding: 5px;
 }
 .post img {
   max-width: 80%;
