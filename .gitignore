@@ -1,4 +1,4 @@
-*.db
+social_media.db
 .env
 *.sqbpro
 *.db-journal
