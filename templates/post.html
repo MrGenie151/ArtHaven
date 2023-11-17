@@ -41,7 +41,8 @@
 			<button class="w3-button w3-red w3-right" onclick="$('#report-prompt').show()"><span class="material-symbols-outlined">report</span> Report</button>
 			<md-block>**Description:** {{ post[0] }}<br />
 				**Author:** <a href="/users/{{ post[1] }}">{{ post[6] }}</a><br />
-				**Date Posted:** {{ postdate }}
+				**Date Posted:** {{ postdate }}  
+				**Tags:** {% for tag in tags %}<a href="/browse/tag/?tag={{ tag[2] }}">{{ tag[2] }}</a>, {% endfor %}
 			</p>
 		</div>
 		<div class="comments">

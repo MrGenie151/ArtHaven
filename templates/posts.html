@@ -48,6 +48,8 @@
         <textarea id="post-content" name="content" placeholder="Write your post description..." rows="3" cols="50" maxlength="1000" oninput="countCharacters()" required></textarea><br />
         <p class="smol">(Markdown is supported in post descriptions)</p>
         <p class="smol" id="characterCount">Characters left: 1000</p>
+        <input type="text" name="tags" placeholder="Put your post tags here...">
+        <p class="smol">(Post tags, they should be separated by a comma)</p>
         <input type="file" name="image" id="imageInput" accept="image/*" onchange="handleImageUpload()" required><br />
         <input type="hidden" name="dataURL" id="dataURLInput"><br />
         <img id="imagePreview" src="#" alt="Uploaded Image" style="max-width: 300px; max-height: 300px;"><br />

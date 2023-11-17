@@ -53,6 +53,7 @@ def post():
 		title = request.form['title']
 		content = request.form['content']
 		dataURL = request.form['dataURL']
+		tags = request.form['tags']
 		db = get_db()
 		cursor = db.cursor()
 		cursor.execute('INSERT INTO posts (content,authorid,title,imageData,postdate) VALUES (?,?,?,?,?)', (content,session["user_id"],title,dataURL,time.time()))
@@ -60,6 +61,11 @@ def post():
 		
 		cursor.execute("SELECT * FROM posts WHERE authorid = ? ORDER BY postdate DESC limit 1",(session["user_id"],))
 		most_recent_post = cursor.fetchone()
+
+		tags_sep = tags.split(",")
+		for tag in tags_sep:
+			cursor.execute("INSERT INTO tags (postid,tagval) VALUES (?,?)",(most_recent_post[0],tag))
+		db.commit()
 
 		return redirect("/post/" + str(most_recent_post[0]))
 	
@@ -77,6 +83,20 @@ def browse():
 	posts = cursor.fetchall()
 	return render_template("browse.html",posts=posts)
 
+@app.route("/browse/tag/")
+def tag_search():
+	tag = None
+	posts = None
+	if "tag" in request.args:
+		tag = request.args["tag"]
+		db = get_db()
+		cursor = db.cursor()
+		#cursor.execute("SELECT * FROM tags WHERE tagval = ?",(request.args["tag"],))
+		#tag = cursor.fetchall()
+		cursor.execute("SELECT * FROM posts INNER JOIN tags ON posts.id = tags.postid WHERE tagval = ? ORDER BY id DESC limit 50",(tag,))
+		posts = cursor.fetchall()
+	return render_template("tagsearch.html",posts=posts,tag=tag)
+
 @app.route("/post/<post_id>")
 def post_page(post_id):
 	db = get_db()
@@ -89,11 +109,14 @@ def post_page(post_id):
 	cursor.execute("SELECT commentid, comment_content, postdate, authorid, username, profilepicture FROM comments INNER JOIN users ON comments.authorid = users.userid WHERE postid = ? ORDER BY commentid DESC",(post_id,))
 	comments = cursor.fetchall()
 
+	cursor.execute("SELECT * FROM tags WHERE postid = ?",(post_id,))
+	tags = cursor.fetchall()
+
 	if post:
 		#title, content, authorid, imageData = post
 		date = datetime.fromtimestamp(post[4])
 
-		return render_template("post.html", post=post,postdate=date.strftime("%d-%m-%y"),comments=comments)
+		return render_template("post.html", post=post,postdate=date.strftime("%d-%m-%y"),comments=comments,tags=tags)
 	
 	return render_template("error.html")
 
