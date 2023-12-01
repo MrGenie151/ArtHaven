@@ -245,7 +245,7 @@ def settings():
 def report(post_id):
 	report_content = request.form["report-content"]
 	data = {
-		"content": None,
+		"content": "@everyone",
 		"embeds": [
 			{
 				"title": "REPORT",
