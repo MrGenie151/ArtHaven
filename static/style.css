@@ -108,4 +108,14 @@ form {
   margin-right: 10px;
   float: left;
   border-radius: 5%;
+}
+
+body {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+footer {
+  margin-top: auto;
 }/*# sourceMappingURL=style.css.map */

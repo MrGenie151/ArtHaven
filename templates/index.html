@@ -8,14 +8,52 @@
 	<script src="static/jquery-3.7.1.min.js"></script>
 	<script src="static/load_header.js"></script>
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<style>
+		#scrolltext {
+			display: inline-block; /* Make the span inline */
+			white-space: nowrap; /* Prevent text from wrapping */
+			animation: scrollText 1s forwards; /* Animation for scrolling */
+		}
+
+		@keyframes scrollText {
+			0% {
+				transform: translateY(100%); /* Start position */
+				opacity: 0%;
+			}
+			100% {
+				transform: translateY(0); /* End position */
+				opacity: 100%;
+			}
+		}
+
+	</style>
+	<script>
+		const texts = ['original', 'furry', 'digital',"traditional","fan"]; // Add more text if needed
+
+		function changeText() {
+			const $text = $('#scrolltext');
+			let currentIndex = $text.data('index') || 0;
+			$text.text(texts[currentIndex]);
+			currentIndex = (currentIndex + 1) % texts.length;
+			$text.data('index', currentIndex);
+			
+			$text.css('animation', 'none'); // Reset animation
+			void $text.get(0).offsetWidth; // Trigger reflow
+			$text.css('animation', 'scrollText 1s forwards'); // Restart animation
+		}
+
+		setInterval(changeText, 5 * 1000); // Change text every 10 seconds
+
+	</script>
 </head>
 <body>
 
 	<div id="header"></div>
 
 	<div class="w3-center">
-		<h1>ArtHaven</h1>
-		<p>An experimental place to post your SFW artwork.</p>
+		<!--<h1>ArtHaven</h1>
+		<p>An experimental place to post your SFW artwork.</p>-->
+		<h1>The best place for safe-for-work <span id="scrolltext">fan</span> art</h1>
 		{% if session["user_id"] %}
 		<a href="/post" class="w3-button w3-dark-gray">Post Something</a>
 		{% endif %}
@@ -23,6 +61,8 @@
 		<a href="/register" class="w3-button w3-dark-gray">Sign up</a>
 		{% endif %}
 	</div>
+
+	<div id="footer"></div>
 
 </body>
 </html>
