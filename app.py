@@ -7,6 +7,8 @@ import time
 from dotenv import load_dotenv
 from datetime import datetime
 import requests
+import re
+import base64
 
 load_dotenv()
 
@@ -35,6 +37,42 @@ def close_connection(exception):
 def check_password(saved_password, entered_password):
 	return check_password_hash(saved_password, entered_password)
 
+def sanitize_filename(filename):
+	# Replace characters that are not allowed in filenames with underscores
+	sanitized_filename = re.sub(r'[\\/*?:"<>|]', '_', filename)
+	# Remove leading and trailing whitespaces
+	sanitized_filename = sanitized_filename.strip()
+	# Limit the filename length to 255 characters (maximum allowed by most filesystems)
+	sanitized_filename = sanitized_filename[:255]
+	return sanitized_filename
+
+def data_url_to_image(data_url, output_path):
+	# Extract image data and format from the data URL
+	match = re.match(r'data:image/([^;]+);base64,(.*)', data_url)
+	if not match:
+		print("Invalid data URL")
+		return
+	
+	image_format = match.group(1)
+	image_data = match.group(2)
+	
+	# Decode the base64-encoded image data
+	decoded_image = base64.b64decode(image_data)
+	
+	# Determine the image file extension based on format
+	if image_format == "jpeg":
+		extension = "jpg"
+	else:
+		extension = image_format
+	
+	# Save the decoded image data to a file
+	output_file = output_path + "." + extension
+	with open(output_file, 'wb') as f:
+		f.write(decoded_image)
+	
+	print("Image saved successfully at:", output_file)
+	return output_file
+
 # MAIN SITE STUFF
 @app.route("/")
 def home():
@@ -54,9 +92,13 @@ def post():
 		content = request.form['content']
 		dataURL = request.form['dataURL']
 		tags = request.form['tags']
+
+		sanitized_name = sanitize_filename(title)
+		img_path = "/" + data_url_to_image(dataURL,"static/image/posts/" + sanitized_name)
+
 		db = get_db()
 		cursor = db.cursor()
-		cursor.execute('INSERT INTO posts (content,authorid,title,imageData,postdate) VALUES (?,?,?,?,?)', (content,session["user_id"],title,dataURL,time.time()))
+		cursor.execute('INSERT INTO posts (content,authorid,title,imageData,postdate) VALUES (?,?,?,?,?)', (content,session["user_id"],title,img_path,time.time()))
 		db.commit()
 		
 		cursor.execute("SELECT * FROM posts WHERE authorid = ? ORDER BY postdate DESC limit 1",(session["user_id"],))
@@ -296,6 +338,7 @@ def delete_post(post_id):
 		if session["user_id"] == post[2] or session["moderator"] > 0:
 			print("epic")
 			cursor.execute("DELETE FROM posts WHERE id = ?",(post_id,))
+			cursor.execute("DELETE FROM tags WHERE postid = ?",(post_id,))
 			db.commit()
 			return "Go back to browse idiot"
 	return "Friggin heck"

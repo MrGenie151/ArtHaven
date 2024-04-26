@@ -2,3 +2,5 @@ social_media.db
 .env
 *.sqbpro
 *.db-journal
+static/image/posts/*
+test.py
