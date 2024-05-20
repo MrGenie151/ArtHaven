@@ -29,8 +29,8 @@
         </div>
         <div class="user-posts content-div">
             <h1>Posts by {{ user[0] }}</h1>
-            <a href="/users/{{ user[1] }}/posts" class="w3-right">View all posts >>></a>
-            <div class="grid">
+            <a href="/users/{{ user[1] }}/posts" class="w3-right">View all posts >>></a><br />
+            <div class="row post-row">
                 {% for post in posts %}
                     <div class="post w3-card">
                         <div class="w3-center">

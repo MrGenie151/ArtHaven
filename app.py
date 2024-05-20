@@ -169,7 +169,7 @@ def user_page(user_id):
 	cursor.execute("SELECT username, userid, description, joindate, ismoderator, profilepicture FROM users WHERE userid = ?",(user_id,))
 	user = cursor.fetchone()
 
-	cursor.execute("SELECT * FROM posts WHERE authorid = ? ORDER BY id DESC limit 10",(user_id,))
+	cursor.execute("SELECT * FROM posts WHERE authorid = ? ORDER BY id DESC limit 20",(user_id,))
 	posts = cursor.fetchall()
 	#print(post)
 
