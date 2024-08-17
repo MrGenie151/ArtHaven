@@ -51,11 +51,11 @@ def data_url_to_image(data_url, output_path):
 if __name__ == "__main__":
 	db = sqlite3.connect(DATABASE)
 	cursor = db.cursor()
-	cursor.execute("SELECT * FROM posts")
+	cursor.execute("SELECT * FROM users")
 	posts = cursor.fetchall()
 	for post in posts:
-		if not post[4].find("data:") == -1:
+		if not post[6].find("data:") == -1:
 			sanitized_name = str(post[0])
-			img_path = "/" + data_url_to_image(post[4],"static/image/posts/" + sanitized_name)
-			cursor.execute("UPDATE posts SET imageData = ? WHERE id = ?",(img_path,post[0],))
+			img_path = "/" + data_url_to_image(post[6],"static/image/profile_pics/" + sanitized_name)
+			cursor.execute("UPDATE users SET profilepicture = ? WHERE userid = ?",(img_path,post[0],))
 			db.commit()

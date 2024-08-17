@@ -2,25 +2,25 @@ $padding-size: 10px;
 
 $themes: (
  light: (
-   text: #151e16,
-   background: #dbffdb,
-   primary: #54ff47,
-   secondary: #2ae539,
-   accent: #ddff00,
+   text: #0e1511,
+   background: #f4fbf7,
+   primary: #1b6a40,
+   secondary: #68eea9,
+   accent: #01fe7b,
  ),
  dark: (
-   text: #e1eae2,
-   background: #002400,
-   primary: #0cb800,
-   secondary: #1ad52a,
-   accent: #ddff00,
+   text: #eaf1ed,
+   background: #040b07,
+   primary: #96e4ba,
+   secondary: #119752,
+   accent: #01fe7b,
  ),
 );
 
 .content-div {
     margin: $padding-size;
     padding: $padding-size;
-    background-color: map-get(map-get($themes,dark), primary)
+    background-color: map-get(map-get($themes,dark), secondary)
 }
 
 body {
@@ -29,7 +29,7 @@ body {
 }
 
 .topbar {
-    background-color: map-get(map-get($themes,dark), primary);
+    background-color: map-get(map-get($themes,dark), secondary);
 }
 
 textarea {
@@ -64,12 +64,12 @@ header {
 }
 
 .post {
-    width: 100px;
-    min-height: 130px;
+    width: 120px;
+    min-height: 150px;
     /*display: inline-block; */
     line-height: 10px;
     /*background-color: rgb(26, 26, 26);*/
-    background-color: map-get(map-get($themes,dark), primary);
+    background-color: map-get(map-get($themes,dark), secondary);
     margin: 5px;
     padding: 5px;
 
@@ -79,10 +79,10 @@ header {
     }
 
     a {
-        display: block;
+        //display: block;
         size: 100%;
         //float:left; clear:left;
-        text-align: center;
+        //text-align: center;
         line-height: 1em;
         overflow-wrap: break-word;
     }
@@ -92,7 +92,7 @@ header {
     margin-left: $padding-size;
     margin-right: $padding-size;
     min-height: 200px;
-    background-color: map-get(map-get($themes,dark), primary);
+    background-color: map-get(map-get($themes,dark), secondary);
 
     p {
         margin-left: 10px;
@@ -118,12 +118,13 @@ header {
 
     .comments {
         /*background-color: rgb(66, 66, 66);*/
-        background-color: map-get(map-get($themes,dark), primary);
+        background-color: map-get(map-get($themes,dark), secondary);
         margin: $padding-size;
         padding: $padding-size;
         .comment {
             // background-color: rgb(88, 88, 88);
-            background-color: map-get(map-get($themes,dark), secondary);
+            background-color: map-get(map-get($themes,dark), accent);
+            color: black;
             margin: $padding-size;
             padding: $padding-size;
             
@@ -161,6 +162,7 @@ form {
     width: 100px;
     height: 100px;
     margin-right: 10px;
+    object-fit: cover;
     float: left;
     border-radius: 5%;
 }

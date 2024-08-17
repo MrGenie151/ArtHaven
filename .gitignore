@@ -3,4 +3,7 @@ social_media.db
 *.sqbpro
 *.db-journal
 static/image/posts/*
+static/image/profile_pics/*
 test.py
+ngrok.exe
+.ngrok.exe.old

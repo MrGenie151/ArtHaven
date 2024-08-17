@@ -121,7 +121,7 @@ def post():
 def browse():
 	db = get_db()
 	cursor = db.cursor()
-	cursor.execute("SELECT * FROM posts ORDER BY id DESC limit 50")
+	cursor.execute("SELECT * FROM posts INNER JOIN users ON posts.authorid = users.userid ORDER BY id DESC limit 50")
 	posts = cursor.fetchall()
 	return render_template("browse.html",posts=posts)
 
@@ -241,7 +241,7 @@ def login():
 					session["moderator"] = True
 				return redirect("/")
 		
-		return "Invalid username or password. Please try again."
+		return render_template("login.html",invalid=True)
 	return render_template("login.html")
 
 @app.route("/logout")
@@ -269,9 +269,12 @@ def settings():
 		pfp = request.form["dataURL"]
 		print(desc)
 
+		sanitized_name = str(session["user_id"])
+		img_path = "/" + data_url_to_image(pfp,"static/image/profile_pics/" + sanitized_name)
+
 		db = get_db()
 		cursor = db.cursor()
-		cursor.execute("UPDATE users SET description = ?, profilepicture = ? WHERE userid = ?",(desc, pfp, session["user_id"]))
+		cursor.execute("UPDATE users SET description = ?, profilepicture = ? WHERE userid = ?",(desc, img_path, session["user_id"]))
 		db.commit()
 
 		return redirect("/users/" + str(session["user_id"]))
@@ -303,6 +306,10 @@ def report(post_id):
 	#print()
 
 	return redirect("/post/" + str(post_id))
+
+@app.errorhandler(404)
+def page_not_found(e):
+	return render_template("404.html")
 
 # END OF MAIN SITE STUFF
 

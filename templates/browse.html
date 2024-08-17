@@ -20,7 +20,8 @@
                 <div class="w3-center">
                     <img src="{{ post[4] }}" />
                 </div><br />
-                <a href="/post/{{ post[0] }}" class="w3-center">{{ post[3] }}</a>
+                <a href="/post/{{ post[0] }}" class="w3-left">{{ post[3] }}</a>
+                <p class="w3-left">by <a href="/users/{{ post[6] }}">{{ post[7] }}</a></p>
             </div>
         {% endfor %}
     </div>

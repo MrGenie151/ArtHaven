@@ -1,16 +1,16 @@
 .content-div {
   margin: 10px;
   padding: 10px;
-  background-color: #0cb800;
+  background-color: #119752;
 }
 
 body {
-  background-color: #002400;
-  color: #e1eae2;
+  background-color: #040b07;
+  color: #eaf1ed;
 }
 
 .topbar {
-  background-color: #0cb800;
+  background-color: #119752;
 }
 
 textarea {
@@ -42,12 +42,12 @@ header #subtitle {
 }
 
 .post {
-  width: 100px;
-  min-height: 130px;
+  width: 120px;
+  min-height: 150px;
   /*display: inline-block; */
   line-height: 10px;
   /*background-color: rgb(26, 26, 26);*/
-  background-color: #0cb800;
+  background-color: #119752;
   margin: 5px;
   padding: 5px;
 }
@@ -56,9 +56,7 @@ header #subtitle {
   max-height: 60px;
 }
 .post a {
-  display: block;
   size: 100%;
-  text-align: center;
   line-height: 1em;
   overflow-wrap: break-word;
 }
@@ -67,7 +65,7 @@ header #subtitle {
   margin-left: 10px;
   margin-right: 10px;
   min-height: 200px;
-  background-color: #0cb800;
+  background-color: #119752;
 }
 .post-body p {
   margin-left: 10px;
@@ -88,12 +86,13 @@ header #subtitle {
 }
 .post-page .comments {
   /*background-color: rgb(66, 66, 66);*/
-  background-color: #0cb800;
+  background-color: #119752;
   margin: 10px;
   padding: 10px;
 }
 .post-page .comments .comment {
-  background-color: #1ad52a;
+  background-color: #01fe7b;
+  color: black;
   margin: 10px;
   padding: 10px;
 }
@@ -119,6 +118,8 @@ form {
   width: 100px;
   height: 100px;
   margin-right: 10px;
+  -o-object-fit: cover;
+     object-fit: cover;
   float: left;
   border-radius: 5%;
 }
