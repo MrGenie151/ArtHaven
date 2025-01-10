@@ -270,6 +270,7 @@ def settings():
 		print(desc)
 
 		sanitized_name = str(session["user_id"])
+		print(pfp)
 		img_path = "/" + data_url_to_image(pfp,"static/image/profile_pics/" + sanitized_name)
 
 		db = get_db()

@@ -24,6 +24,41 @@
             reader.readAsDataURL(file);
         }
 
+        function getMimeType(img) {
+            const src = img.src;
+            const extension = src.split('.').pop().toLowerCase();
+            const mimeTypes = {
+                png: 'image/png',
+                jpg: 'image/jpeg',
+                jpeg: 'image/jpeg',
+                gif: 'image/gif',
+                webp: 'image/webp'
+            };
+            return mimeTypes[extension] || 'image/png'; // Default to PNG if unknown
+        }
+
+        function imgToDataUrl() {
+            const img = document.getElementById('imagePreview')
+
+            // Create a canvas and draw the image
+            const canvas = document.createElement('canvas');
+            const ctx = canvas.getContext('2d');
+
+            // Ensure the canvas matches the image's size
+            canvas.width = img.naturalWidth;
+            canvas.height = img.naturalHeight;
+
+            // Draw the image onto the canvas
+            ctx.drawImage(img, 0, 0);
+
+            // Get the MIME type
+            const mimeType = getMimeType(img);
+
+            // Get the data URL with the correct MIME type
+            const dataURL = canvas.toDataURL(mimeType);
+            document.getElementById('dataURLInput').value = dataURL;
+        }
+
         /*function countCharacters() {
             const maxLength = 1000; // Set your maximum character limit here
             const text = document.getElementById("post-content").value;
